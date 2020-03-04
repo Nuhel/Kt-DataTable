@@ -19,7 +19,7 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" id="table-container">
               <div class="kt-datatable" id="local_data"></div>
             </div>
           </div>
@@ -155,13 +155,40 @@
                 overflow: "visible",
                 autoHide: !1,
                 template: function() {
-                    return '\t\t\t\t\t\t<div class="dropdown">\t\t\t\t\t\t\t<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown">                                <i class="flaticon2-gear"></i>                            </a>\t\t\t\t\t\t  \t<div class="dropdown-menu dropdown-menu-right">\t\t\t\t\t\t    \t<a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\t\t\t\t\t\t    \t<a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\t\t\t\t\t\t    \t<a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\t\t\t\t\t\t  \t</div>\t\t\t\t\t\t</div>\t\t\t\t\t\t<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">\t\t\t\t\t\t\t<i class="flaticon2-paper"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Delete">\t\t\t\t\t\t\t<i class="flaticon2-trash"></i>\t\t\t\t\t\t</a>\t\t\t\t\t'
+                    return `
+                      <div class="dropdown">
+                        <a href="javascript:;" class="btn btn-sm btn-success btn-icon btn-icon-sm"data-toggle="dropdown">
+                          <i class="flaticon2-gear"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a class="dropdown-item" href="#">
+                            <i class="la la-edit"></i> Edit Details
+                          </a>
+                          <a class="dropdown-item" href="#">
+                            <i class="la la-leaf"></i> Update Status
+                          </a>
+                          <a class="dropdown-item" href="#">
+                            <i class="la la-print"></i> Generate Report
+                          </a>
+                        </div>
+                      </div>
+                      <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">
+                        <i class="flaticon2-paper"></i>
+                      </a>
+                      <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Delete">
+                        <i class="flaticon2-trash"></i>
+                      </a>`
                 }
             }]
         });
 
-        t.on('light:off',function(){
-          console.log('sdsd');
+        t.on('light:off',function(t,e){
+          console.log(e.t);
+          if(e.t){
+            $('#table-container').block();
+          }else{
+            $('#table-container').unblock();
+          }
         });
 
     </script>
