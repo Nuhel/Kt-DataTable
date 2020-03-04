@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="ktdt.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" />
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    <section class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="kt-datatable" id="local_data"></div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+    <script src="ktdt.js"></script>
+
+    <script type="text/javascript">
+      
+      "use strict";
+        var t;
+        t = $(".kt-datatable").KTDatatable({
+            data: {
+                type: "remote",
+                source: {
+                    read: {
+                        url: "https://keenthemes.com/metronic/tools/preview/api/datatables/demos/default.php",
+                        map: function(t) {
+                            var e = t;
+                            return void 0 !== t.data && (e = t.data), e
+                        }
+                    }
+                },
+                pageSize: 10,
+                serverPaging: !0,
+                serverFiltering: !0,
+                serverSorting: !0
+            },
+            layout: {
+                scroll: !1,
+                footer: !1
+            },
+            sortable: !0,
+            pagination: !0,
+            search: {
+                input: $("#generalSearch")
+            },
+            columns: [{
+                field: "RecordID",
+                title: "#",
+                sortable: "asc",
+                width: 30,
+                type: "number",
+                selector: !1,
+                textAlign: "center"
+            }, {
+                field: "OrderID",
+                title: "Order ID"
+            }, {
+                field: "Country",
+                title: "Country",
+                template: function(t) {
+                    return t.Country + " " + t.ShipCountry
+                }
+            }, {
+                field: "ShipDate",
+                title: "Ship Date",
+                type: "date",
+                format: "MM/DD/YYYY"
+            }, {
+                field: "CompanyName",
+                title: "Company Name"
+            }, {
+                field: "Status",
+                title: "Status",
+                template: function(t) {
+                    var e = {
+                        1: {
+                            title: "Pending",
+                            class: "kt-badge--brand"
+                        },
+                        2: {
+                            title: "Delivered",
+                            class: " kt-badge--danger"
+                        },
+                        3: {
+                            title: "Canceled",
+                            class: " kt-badge--primary"
+                        },
+                        4: {
+                            title: "Success",
+                            class: " kt-badge--success"
+                        },
+                        5: {
+                            title: "Info",
+                            class: " kt-badge--info"
+                        },
+                        6: {
+                            title: "Danger",
+                            class: " kt-badge--danger"
+                        },
+                        7: {
+                            title: "Warning",
+                            class: " kt-badge--warning"
+                        }
+                    };
+                    return '<span class="kt-badge ' + e[t.Status].class + ' kt-badge--inline kt-badge--pill">' + e[t.Status].title + "</span>"
+                }
+            }, {
+                field: "Type",
+                title: "Type",
+                autoHide: !1,
+                template: function(t) {
+                    var e = {
+                        1: {
+                            title: "Online",
+                            state: "danger"
+                        },
+                        2: {
+                            title: "Retail",
+                            state: "primary"
+                        },
+                        3: {
+                            title: "Direct",
+                            state: "success"
+                        }
+                    };
+                    return '<span class="kt-badge kt-badge--' + e[t.Type].state + ' kt-badge--dot"></span>&nbsp;<span class="kt-font-bold kt-font-' + e[t.Type].state + '">' + e[t.Type].title + "</span>"
+                }
+            }, {
+                field: "Actions",
+                title: "Actions",
+                sortable: !1,
+                width: 110,
+                overflow: "visible",
+                autoHide: !1,
+                template: function() {
+                    return '\t\t\t\t\t\t<div class="dropdown">\t\t\t\t\t\t\t<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown">                                <i class="flaticon2-gear"></i>                            </a>\t\t\t\t\t\t  \t<div class="dropdown-menu dropdown-menu-right">\t\t\t\t\t\t    \t<a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\t\t\t\t\t\t    \t<a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\t\t\t\t\t\t    \t<a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\t\t\t\t\t\t  \t</div>\t\t\t\t\t\t</div>\t\t\t\t\t\t<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">\t\t\t\t\t\t\t<i class="flaticon2-paper"></i>\t\t\t\t\t\t</a>\t\t\t\t\t\t<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Delete">\t\t\t\t\t\t\t<i class="flaticon2-trash"></i>\t\t\t\t\t\t</a>\t\t\t\t\t'
+                }
+            }]
+        });
+
+        t.on('light:off',function(){
+          console.log('sdsd');
+        });
+
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+  </body>
+</html>
