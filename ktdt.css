@@ -1183,3 +1183,23 @@ select.selectpicker {
 .bootstrap-select.show-menu-arrow.show>.dropdown-toggle .filter-option:before {
 	display: block
 }
+
+
+.dropdown.bootstrap-select.kt-datatable__pager-size{
+	width: auto !important;
+}
+
+.blockUI.blockMsg.blockElement  {
+	-webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12) !important;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12) !important;
+	display: table !important;
+	table-layout: fixed !important;
+	border-radius: 4px !important;
+	left: 50% !important;
+	
+	transform: translate(-50% , -50%);
+}
+
+.blockUI.blockOverlay{
+	background-color:  rgba(0,0,0,.2) !important;
+}

@@ -2170,13 +2170,7 @@ KTUtil.ready(function() {
                     },
                     isSpinning: !1,
                     spinnerCallback: function (t, e) {
-
-
-                        tableInstance.trigger("light:off",{t,e})
-                        //console.log(e);
-                        //void 0 === e && (e = l);
-                        //var a = r.getOption("layout.spinner");
-                        //void 0 !== a && a && (t ? r.isSpinning || (void 0 !== a.message && !0 === a.message && (a.message = r.getOption("translate.records.processing")), r.isSpinning = !0, void 0 !== o && o.block(e, a)) : (r.isSpinning = !1, void 0 !== o && o.unblock(e, a)))
+                        tableInstance.trigger("spinnerCallback",[ t,e ])
                     },
                     sortCallback: function (t, a, n) {
                         var o = n.type || "string",
@@ -2773,19 +2767,19 @@ KTUtil.ready(function() {
                 },
                 icons: {
                     sort: {
-                        asc: "flaticon2-arrow-up",
-                        desc: "flaticon2-arrow-down"
+                        asc: "icofont-arrow-up",
+                        desc: "icofont-arrow-down"
                     },
                     pagination: {
-                        next: "fas fa-forward",
-                        prev: "fas fa-backward",
-                        first: "fas fa-fast-backward",
-                        last: "fas fa-fast-forward",
-                        more: "flaticon-more-1"
+                        next: "icofont-arrow-right",
+                        prev: "icofont-arrow-left",
+                        first: "icofont-ui-previous",
+                        last: "icofont-ui-next",
+                        more: "icofont-navigation-menu"
                     },
                     rowDetail: {
-                        expand: "fa fa-caret-down",
-                        collapse: "fa fa-caret-right"
+                        expand: "icofont-expand-alt",
+                        collapse: "icofont-collapse"
                     }
                 }
             },
@@ -2863,95 +2857,6 @@ KTUtil.ready(function() {
         }
     }(jQuery);
 
-
-
-    function b (t) {
-        jQuery.fn.KTDatatable = t.fn.KTDatatable || {}, jQuery.fn.KTDatatable.checkbox = function (e, a) {
-            var n = {
-                selectedAllRows: !1,
-                selectedRows: [],
-                unselectedRows: [],
-                init: function () {
-                    n.selectorEnabled() && (e.setDataSourceParam(a.vars.selectedAllRows, !1), e.stateRemove("checkbox"), a.vars.requestIds && e.setDataSourceParam(a.vars.requestIds, !0), t(e).on("kt-datatable--on-reloaded", function () {
-                        e.stateRemove("checkbox"), e.setDataSourceParam(a.vars.selectedAllRows, !1), n.selectedAllRows = !1, n.selectedRows = [], n.unselectedRows = []
-                    }), n.selectedAllRows = e.getDataSourceParam(a.vars.selectedAllRows), t(e).on("kt-datatable--on-layout-updated", function (a, o) {
-                        o.table == t(e.wrap).attr("id") && e.ready(function () {
-                            n.initVars(), n.initEvent(), n.initSelect()
-                        })
-                    }), t(e).on("kt-datatable--on-check", function (a, o) {
-                        o.forEach(function (t) {
-                            n.selectedRows.push(t), n.unselectedRows = n.remove(n.unselectedRows, t)
-                        });
-                        var i = {};
-                        i.selectedRows = t.unique(n.selectedRows), i.unselectedRows = t.unique(n.unselectedRows), e.stateKeep("checkbox", i)
-                    }), t(e).on("kt-datatable--on-uncheck", function (a, o) {
-                        o.forEach(function (t) {
-                            n.unselectedRows.push(t), n.selectedRows = n.remove(n.selectedRows, t)
-                        });
-                        var i = {};
-                        i.selectedRows = t.unique(n.selectedRows), i.unselectedRows = t.unique(n.unselectedRows), e.stateKeep("checkbox", i)
-                    }))
-                },
-                initEvent: function () {
-                    t(e.tableHead).find('.kt-checkbox--all > [type="checkbox"]').click(function (o) {
-                        if (n.selectedRows = n.unselectedRows = [], e.stateRemove("checkbox"), t(this).is(":checked") ? n.selectedAllRows = !0 : n.selectedAllRows = !1, !a.vars.requestIds) {
-                            t(this).is(":checked") && (n.selectedRows = t.makeArray(t(e.tableBody).find('.kt-checkbox--single > [type="checkbox"]').map(function (e, a) {
-                                return t(a).val()
-                            })));
-                            var i = {};
-                            i.selectedRows = t.unique(n.selectedRows), e.stateKeep("checkbox", i)
-                        }
-                        e.setDataSourceParam(a.vars.selectedAllRows, n.selectedAllRows), t(e).trigger("kt-datatable--on-click-checkbox", [t(this)])
-                    }), t(e.tableBody).find('.kt-checkbox--single > [type="checkbox"]').click(function (o) {
-                        var i = t(this).val();
-                        t(this).is(":checked") ? (n.selectedRows.push(i), n.unselectedRows = n.remove(n.unselectedRows, i)) : (n.unselectedRows.push(i), n.selectedRows = n.remove(n.selectedRows, i)), !a.vars.requestIds && n.selectedRows.length < 1 && t(e.tableHead).find('.kt-checkbox--all > [type="checkbox"]').prop("checked", !1);
-                        var l = {};
-                        l.selectedRows = t.unique(n.selectedRows), l.unselectedRows = t.unique(n.unselectedRows), e.stateKeep("checkbox", l), t(e).trigger("kt-datatable--on-click-checkbox", [t(this)])
-                    })
-                },
-                initSelect: function () {
-                    n.selectedAllRows && a.vars.requestIds ? (e.hasClass("kt-datatable--error") || t(e.tableHead).find('.kt-checkbox--all > [type="checkbox"]').prop("checked", !0), e.setActiveAll(!0), n.unselectedRows.forEach(function (t) {
-                        e.setInactive(t)
-                    })) : (n.selectedRows.forEach(function (t) {
-                        e.setActive(t)
-                    }), !e.hasClass("kt-datatable--error") && t(e.tableBody).find('.kt-checkbox--single > [type="checkbox"]').not(":checked").length < 1 && t(e.tableHead).find('.kt-checkbox--all > [type="checkbox"]').prop("checked", !0))
-                },
-                selectorEnabled: function () {
-                    return t.grep(e.options.columns, function (t, e) {
-                        return t.selector || !1
-                    })[0]
-                },
-                initVars: function () {
-                    var t = e.stateGet("checkbox");
-                    void 0 !== t && (n.selectedRows = t.selectedRows || [], n.unselectedRows = t.unselectedRows || [])
-                },
-                getSelectedId: function (t) {
-                    if (n.initVars(), n.selectedAllRows && a.vars.requestIds) {
-                        void 0 === t && (t = a.vars.rowIds);
-                        var o = e.getObject(t, e.lastResponse) || [];
-                        return o.length > 0 && n.unselectedRows.forEach(function (t) {
-                            o = n.remove(o, parseInt(t))
-                        }), o
-                    }
-                    return n.selectedRows
-                },
-                remove: function (t, e) {
-                    return t.filter(function (t) {
-                        return t !== e
-                    })
-                }
-            };
-            return e.checkbox = function () {
-                return n
-            }, "object" == typeof a && (a = t.extend(!0, {}, t.fn.KTDatatable.checkbox.default, a), n.init.apply(this, [a])), e
-        }, t.fn.KTDatatable.checkbox.default = {
-            vars: {
-                selectedAllRows: "selectedAllRows",
-                requestIds: "requestIds",
-                rowIds: "meta.rowIds"
-            }
-        }
-    }(jQuery);
 
     a(jQuery);
     //b();
