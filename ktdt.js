@@ -1944,7 +1944,9 @@ KTUtil.ready(function() {
                             tableInstance.dataSet = tableInstance.originalDataSet = r.dataMapCallback(t),
                             r.setAutoColumns(), $(tableInstance).trigger("kt-datatable--on-ajax-done", [tableInstance.dataSet])
                         }).fail(function (t, a, n) {
-                            $(tableInstance).trigger("kt-datatable--on-ajax-fail", [t]), $(tableInstance.tableBody).html(e("<span/>").addClass("kt-datatable--error").html(r.getOption("translate.records.noRecords"))), e(l.wrap).addClass("kt-datatable--error kt-datatable--loaded"), r.spinnerCallback(!1)
+                            $(tableInstance).trigger("kt-datatable--on-ajax-fail", [t]),
+                            $(tableInstance.tableBody).html(e("<span/>").addClass("kt-datatable--error").html(r.getOption("translate.records.noRecords"))),
+                            $(tableInstance.wrap).addClass("kt-datatable--error kt-datatable--loaded"), r.spinnerCallback(!1)
                         }).always(function () { })
                     },
                     paging: function (t, a) {
