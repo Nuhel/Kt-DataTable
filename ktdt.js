@@ -1609,51 +1609,51 @@ KTUtil.ready(function() {
                     dragResize: function () {
                         var t, a, n = !1,
                             o = void 0;
-                        e(l.tableHead).find(".kt-datatable__cell").mousedown(function (i) {
-                            o = e(this), n = !0, t = i.pageX, a = e(this).width(), e(o).addClass("kt-datatable__cell--resizing")
+                        $(tableInstance.tableHead).find(".kt-datatable__cell").mousedown(function (i) {
+                            o = $(this), n = !0, t = i.pageX, a = $(this).width(), $(o).addClass("kt-datatable__cell--resizing")
                         }).mousemove(function (i) {
                             if (n) {
                                 var r = e(o).index(),
-                                    s = e(l.tableBody),
+                                    s = e(tableInstance.tableBody),
                                     d = e(o).closest(".kt-datatable__lock");
                                 if (d) {
                                     var c = e(d).index();
-                                    s = e(l.tableBody).find(".kt-datatable__lock").eq(c)
+                                    s = e(tableInstance.tableBody).find(".kt-datatable__lock").eq(c)
                                 }
-                                e(s).find(".kt-datatable__row").each(function (n, o) {
+                                $(s).find(".kt-datatable__row").each(function (n, o) {
                                     e(o).find(".kt-datatable__cell").eq(r).width(a + (i.pageX - t)).children().width(a + (i.pageX - t))
                                 }), e(o).children().css("width", a + (i.pageX - t))
                             }
                         }).mouseup(function () {
-                            e(o).removeClass("kt-datatable__cell--resizing"), n = !1
-                        }), e(document).mouseup(function () {
-                            e(o).removeClass("kt-datatable__cell--resizing"), n = !1
+                            $(o).removeClass("kt-datatable__cell--resizing"), n = !1
+                        }), $(document).mouseup(function () {
+                            $(o).removeClass("kt-datatable__cell--resizing"), n = !1
                         })
                     },
                     initHeight: function () {
                         if (i.layout.height && i.layout.scroll) {
-                            var t = e(l.tableHead).find(".kt-datatable__row").outerHeight(),
-                                a = e(l.tableFoot).find(".kt-datatable__row").outerHeight(),
+                            var t = $(tableInstance.tableHead).find(".kt-datatable__row").outerHeight(),
+                                a = $(tableInstance.tableFoot).find(".kt-datatable__row").outerHeight(),
                                 n = i.layout.height;
-                            t > 0 && (n -= t), a > 0 && (n -= a), n -= 2, e(l.tableBody).css("max-height", n), e(l.tableBody).find(".kt-datatable__lock--scroll").css("height", n)
+                            t > 0 && (n -= t), a > 0 && (n -= a), n -= 2, $(tableInstance.tableBody).css("max-height", n), $(tableInstance.tableBody).find(".kt-datatable__lock--scroll").css("height", n)
                         }
                     },
                     setupBaseDOM: function () {
                         tableInstance.initialDatatable = e(tableInstance).clone(), "TABLE" === e(tableInstance).prop("tagName") ? (tableInstance.table = e(tableInstance).removeClass("kt-datatable").addClass("kt-datatable__table"), 0 === e(tableInstance.table).parents(".kt-datatable").length && (tableInstance.table.wrap(e("<div/>").addClass("kt-datatable").addClass("kt-datatable--" + i.layout.theme)), tableInstance.wrap = e(l.table).parent())) : (tableInstance.wrap = e(tableInstance).addClass("kt-datatable").addClass("kt-datatable--" + i.layout.theme), tableInstance.table = e("<table/>").addClass("kt-datatable__table").appendTo(tableInstance)), void 0 !== i.layout.class && e(tableInstance.wrap).addClass(i.layout.class), e(tableInstance.table).removeClass("kt-datatable--destroyed").css("display", "block"), void 0 === e(tableInstance).attr("id") && (r.setOption("data.saveState", !1), e(tableInstance.table).attr("id", n.getUniqueID("kt-datatable--"))), r.getOption("layout.minHeight") && e(tableInstance.table).css("min-height", r.getOption("layout.minHeight")), r.getOption("layout.height") && e(tableInstance.table).css("max-height", r.getOption("layout.height")), null === i.data.type && e(tableInstance.table).css("width", "").css("display", ""), tableInstance.tableHead = e(tableInstance.table).find("thead"), 0 === e(tableInstance.tableHead).length && (tableInstance.tableHead = e("<thead/>").prependTo(tableInstance.table)), tableInstance.tableBody = e(tableInstance.table).find("tbody"), 0 === e(tableInstance.tableBody).length && (tableInstance.tableBody = e("<tbody/>").appendTo(tableInstance.table)), void 0 !== i.layout.footer && i.layout.footer && (tableInstance.tableFoot = e(tableInstance.table).find("tfoot"), 0 === e(tableInstance.tableFoot).length && (tableInstance.tableFoot = e("<tfoot/>").appendTo(tableInstance.table)))
                     },
                     setupCellField: function (t) {
-                        void 0 === t && (t = e(l.table).children());
+                        void 0 === t && (t = $(tableInstance.table).children());
                         var a = i.columns;
-                        e.each(t, function (t, n) {
-                            e(n).find(".kt-datatable__row").each(function (t, n) {
-                                e(n).find(".kt-datatable__cell").each(function (t, n) {
+                        $.each(t, function (t, n) {
+                            $(n).find(".kt-datatable__row").each(function (t, n) {
+                                $(n).find(".kt-datatable__cell").each(function (t, n) {
                                     void 0 !== a[t] && e(n).data(a[t])
                                 })
                             })
                         })
                     },
                     setupTemplateCell: function (t) {
-                        void 0 === t && (t = l.tableBody);
+                        void 0 === t && (t = tableInstance.tableBody);
                         var a = i.columns;
                         e(t).find(".kt-datatable__row").each(function (t, n) {
                             var o = e(n).data("obj");
@@ -1777,18 +1777,34 @@ KTUtil.ready(function() {
                             init: function () {
                                 var a = n.getViewPort().width;
                                 if (i.layout.scroll) {
-                                    e(l.wrap).addClass("kt-datatable--scroll");
-                                    var o = e(l.tableBody).find(".kt-datatable__lock--scroll");
-                                    e(o).find(".kt-datatable__row").length > 0 && e(o).length > 0 ? (t.scrollHead = e(l.tableHead).find("> .kt-datatable__lock--scroll > .kt-datatable__row"), t.scrollFoot = e(l.tableFoot).find("> .kt-datatable__lock--scroll > .kt-datatable__row"), t.tableLocked = e(l.tableBody).find(".kt-datatable__lock:not(.kt-datatable__lock--scroll)"), r.getOption("layout.customScrollbar") && 10 != n.detectIE() && a > n.getBreakpoint("lg") ? t.initCustomScrollbar(o[0]) : t.initDefaultScrollbar(o)) : e(l.tableBody).find(".kt-datatable__row").length > 0 && (t.scrollHead = e(l.tableHead).find("> .kt-datatable__row"), t.scrollFoot = e(l.tableFoot).find("> .kt-datatable__row"), r.getOption("layout.customScrollbar") && 10 != n.detectIE() && a > n.getBreakpoint("lg") ? t.initCustomScrollbar(l.tableBody) : t.initDefaultScrollbar(l.tableBody))
+                                    e(tableInstance.wrap).addClass("kt-datatable--scroll");
+                                    var o = e(tableInstance.tableBody).find(".kt-datatable__lock--scroll");
+
+                                    e(o).find(".kt-datatable__row").length > 0 && e(o).length > 0 ? 
+                                    (t.scrollHead = e(tableInstance.tableHead).find("> .kt-datatable__lock--scroll > .kt-datatable__row"),
+                                    	t.scrollFoot = e(tableInstance.tableFoot).find("> .kt-datatable__lock--scroll > .kt-datatable__row"),
+                                    	t.tableLocked = e(tableInstance.tableBody).find(".kt-datatable__lock:not(.kt-datatable__lock--scroll)"),
+
+										r.getOption("layout.customScrollbar") && 10 != n.detectIE() && a > n.getBreakpoint("lg") ?
+											t.initCustomScrollbar(o[0]) : t.initDefaultScrollbar(o)) : e(tableInstance.tableBody).find(".kt-datatable__row").length > 0
+                                    			&& (t.scrollHead = e(tableInstance.tableHead).find("> .kt-datatable__row"),
+
+                                    		t.scrollFoot = e(tableInstance.tableFoot).find("> .kt-datatable__row"),
+                                    		r.getOption("layout.customScrollbar") && 10 != n.detectIE() && a > n.getBreakpoint("lg") ? 
+                                    		t.initCustomScrollbar(tableInstance.tableBody) : t.initDefaultScrollbar(tableInstance.tableBody))
                                 }
                             },
                             initDefaultScrollbar: function (a) {
-                                t.initPosition = e(a).scrollLeft(), e(a).css("overflow-y", "auto").off().on("scroll", t.onScrolling), !0 !== r.getOption("rows.autoHide") && e(a).css("overflow-x", "auto")
+                                t.initPosition = e(a).scrollLeft(),
+                                e(a).css("overflow-y", "auto").off().on("scroll", t.onScrolling),
+                                !0 !== r.getOption("rows.autoHide") && e(a).css("overflow-x", "auto")
                             },
                             onScrolling: function (a) {
                                 var o = e(this).scrollLeft(),
                                     i = e(this).scrollTop();
-                                n.isRTL() && (o -= t.initPosition), e(t.scrollHead).css("left", -o), e(t.scrollFoot).css("left", -o), e(t.tableLocked).each(function (t, a) {
+
+                                n.isRTL() && (o -= t.initPosition), e(t.scrollHead).css("left", -o),
+                                	e(t.scrollFoot).css("left", -o), e(t.tableLocked).each(function (t, a) {
                                     r.isLocked() && (i -= 1), e(a).css("top", -i)
                                 })
                             },
@@ -1800,7 +1816,7 @@ KTUtil.ready(function() {
                     },
                     initScrollbar: function (t, a) {
                         if (t && t.nodeName)
-                            if (e(l.tableBody).css("overflow", ""), n.hasClass(t, "ps")) e(t).data("ps").update();
+                            if ($(tableInstance.tableBody).css("overflow", ""), n.hasClass(t, "ps")) e(t).data("ps").update();
                             else {
                                 var o = new PerfectScrollbar(t, Object.assign({}, {
                                     wheelSpeed: .5,
@@ -1809,7 +1825,7 @@ KTUtil.ready(function() {
                                     maxScrollbarLength: 300,
                                     suppressScrollX: r.getOption("rows.autoHide") && !r.isLocked()
                                 }, a));
-                                e(t).data("ps", o), e(window).resize(function () {
+                                $(t).data("ps", o), e(window).resize(function () {
                                     o.update()
                                 })
                             }
@@ -1821,7 +1837,13 @@ KTUtil.ready(function() {
                             s = t.getElementsByTagName("td");
                         void 0 === o && (o = document.createElement("tr"), t.appendChild(o)), $.each(a, function (t, a) {
                             var i = s[t];
-                            if (void 0 === i && (i = document.createElement("th"), o.appendChild(i)), void 0 !== a.title && (i.innerHTML = a.title, i.setAttribute("data-field", a.field), n.addClass(i, a.class), void 0 !== a.autoHide && (!0 !== a.autoHide ? i.setAttribute("data-autohide-disabled", a.autoHide) : i.setAttribute("data-autohide-enabled", a.autoHide)), e(i).data(a)), void 0 !== a.attr && e.each(a.attr, function (t, e) {
+                            if (void 0 === i && (i = document.createElement("th"),
+                            	o.appendChild(i)),
+                            	void 0 !== a.title && (i.innerHTML = a.title, i.setAttribute("data-field", a.field),
+                            		n.addClass(i, a.class),
+                            		void 0 !== a.autoHide && (!0 !== a.autoHide ? i.setAttribute("data-autohide-disabled", a.autoHide) : i.setAttribute("data-autohide-enabled", a.autoHide)),
+                            		e(i).data(a)),
+                            	void 0 !== a.attr && e.each(a.attr, function (t, e) {
                                 i.setAttribute(t, e)
                             }), void 0 !== a.textAlign) {
                                 var r = void 0 !== tableInstance.textAlign[a.textAlign] ? tableInstance.textAlign[a.textAlign] : "";
@@ -1986,7 +2008,7 @@ KTUtil.ready(function() {
                                 });
                                 var p = e("<select/>").addClass("selectpicker kt-datatable__pager-size").attr("title", r.getOption("translate.toolbar.pagination.items.default.select")).attr("data-width", "60px").val(o.meta.perpage).on("change", o.updatePerpage).prependTo(o.pagerLayout.info),
                                     f = r.getOption("toolbar.items.pagination.pageSizeSelect");
-                                0 == f.length && (f = [10, 20, 30, 50, 100]), e.each(f, function (t, a) {
+                                0 == f.length && (f = [10, 20, 30, 50, 100]), $.each(f, function (t, a) {
                                     var n = a; - 1 === a && (n = r.getOption("translate.toolbar.pagination.items.default.all")), e("<option/>").attr("value", a).html(n).appendTo(p)
                                 }), 
                                 $(tableInstance).ready(function () {
@@ -2100,7 +2122,7 @@ KTUtil.ready(function() {
                                     u = $(t).find(".kt-datatable__pager-link-number"),
                                     p = Math.max($(u).first().data("page") - 1, 1);
                                 $(a).each(function (t, a) {
-                                    e(a).attr("data-page", p)
+                                    $(a).attr("data-page", p)
                                 }), 
                                 1 === p ? $(a).parent().hide() : $(a).parent().show();
                                 var f = Math.min(e(u).last().data("page") + 1, o.meta.pages);
@@ -2121,7 +2143,7 @@ KTUtil.ready(function() {
                         $.each(i.columns, function (a, o) {
                             if (void 0 !== o.responsive) {
                                 var i = o.field,
-                                    r = e.grep(e(l.table).find(".kt-datatable__cell"), function (t, a) {
+                                    r = e.grep(e(tableInstance.table).find(".kt-datatable__cell"), function (t, a) {
                                         return i === e(t).data("field")
                                     });
                                 n.getBreakpoint(o.responsive.hidden) >= t ? $(r).hide() : $(r).show(),
@@ -2148,7 +2170,7 @@ KTUtil.ready(function() {
                                 }), "local" === r.getOption("data.type") && e(o).removeClass("kt-datatable__row-loading"))
                             },
                                 n = i.columns;
-                            e(l.tableBody).find(".kt-datatable__row").each(function (t, o) {
+                            e(tableInstance.tableBody).find(".kt-datatable__row").each(function (t, o) {
                                 e(o).find(".kt-datatable__cell").each(function (t, o) {
                                     var i = e.grep(n, function (t, a) {
                                         return e(o).data("field") === t.field
@@ -2193,7 +2215,7 @@ KTUtil.ready(function() {
                         })
                     },
                     log: function (t, e) {
-                        void 0 === e && (e = ""), l.debug && console.log(t, e)
+                        void 0 === e && (e = ""), tableInstance.debug && console.log(t, e)
                     },
                     autoHide: function () {
                         var t = !1,
@@ -2301,7 +2323,7 @@ KTUtil.ready(function() {
                     },
                     getOneRow: function (t, a, n) {
                         void 0 === n && (n = !0);
-                        var o = e(t).find(".kt-datatable__row:not(.kt-datatable__row-detail):nth-child(" + a + ")");
+                        var o = $(t).find(".kt-datatable__row:not(.kt-datatable__row-detail):nth-child(" + a + ")");
                         return n && (o = o.find(".kt-datatable__cell")), o
                     },
                     sortColumn: function (t, a, n) {
@@ -2364,7 +2386,12 @@ KTUtil.ready(function() {
                         var a = r.getObject("sort.field", t),
                             n = r.getObject("sort.sort", t),
                             o = r.getColumnByField(a);
-                        if (void 0 !== o && !0 !== r.getOption("data.serverSorting") ? "function" == typeof o.sortCallback ? l.dataSet = o.sortCallback(l.originalDataSet, n, o) : l.dataSet = r.sortCallback(l.originalDataSet, n, o) : l.dataSet = l.originalDataSet, "object" == typeof t.query && !r.getOption("data.serverFiltering")) {
+                        if (void 0 !== o && !0 !== r.getOption("data.serverSorting") ? "function" == typeof o.sortCallback ?
+
+                         tableInstance.dataSet = o.sortCallback(tableInstance.originalDataSet, n, o) 
+                         : tableInstance.dataSet = r.sortCallback(tableInstance.originalDataSet, n, o) 
+                         : tableInstance.dataSet = tableInstance.originalDataSet,
+                         "object" == typeof t.query && !r.getOption("data.serverFiltering")) {
                             t.query = t.query || {};
                             var i = function (t) {
                                 for (var e in t)
@@ -2377,9 +2404,9 @@ KTUtil.ready(function() {
                                 return !1
                             },
                                 s = e(r.getOption("search.input")).val();
-                            void 0 !== s && "" !== s && (s = s.toLowerCase(), l.dataSet = e.grep(l.dataSet, i), delete t.query[r.getGeneralSearchKey()]), e.each(t.query, function (e, a) {
+                            void 0 !== s && "" !== s && (s = s.toLowerCase(), tableInstance.dataSet = e.grep(tableInstance.dataSet, i), delete t.query[r.getGeneralSearchKey()]), e.each(t.query, function (e, a) {
                                 "" === a && delete t.query[e]
-                            }), l.dataSet = r.filterArray(l.dataSet, t.query), l.dataSet = l.dataSet.filter(function () {
+                            }), tableInstance.dataSet = r.filterArray(tableInstance.dataSet, t.query), tableInstance.dataSet = tableInstance.dataSet.filter(function () {
                                 return !0
                             })
                         }
@@ -2481,36 +2508,47 @@ KTUtil.ready(function() {
                             r.adjustCellsHeight.call()), r.adjustLockContainer.call(), r.initHeight.call(), tableInstance
                     },
                     load: function () {
-                        return r.reload(), l
+                        return r.reload(), tableInstance
                     },
                     reload: function () {
                         return function (t, e) {
                             clearTimeout(r.timer), r.timer = setTimeout(t, e)
                         }(function () {
-                            i.data.serverFiltering || r.localDataUpdate(), r.dataRender(), e(l).trigger("kt-datatable--on-reloaded")
-                        }, r.getOption("search.delay")), l
+                            i.data.serverFiltering || r.localDataUpdate(), r.dataRender(), e(tableInstance).trigger("kt-datatable--on-reloaded")
+                        }, r.getOption("search.delay")), tableInstance
                     },
                     getRecord: function (t) {
-                        return void 0 === l.tableBody && (l.tableBody = e(l.table).children("tbody")), e(l.tableBody).find(".kt-datatable__cell:first-child").each(function (a, n) {
+                        return void 0 === tableInstance.tableBody && (tableInstance.tableBody = e(tableInstance.table).children("tbody")),
+                        $(tableInstance.tableBody).find(".kt-datatable__cell:first-child").each(function (a, n) {
                             if (t == e(n).text()) {
                                 var o = e(n).closest(".kt-datatable__row").index() + 1;
-                                return l.API.record = l.API.value = r.getOneRow(l.tableBody, o), l
+                                return tableInstance.API.record = tableInstance.API.value = r.getOneRow(tableInstance.tableBody, o), tableInstance
                             }
-                        }), l
+                        }), tableInstance
                     },
-                    getColumn: function (t) {
-                        return r.setSelectedRecords(), tableInstance.API.value = $(tableInstance.API.record).find('[data-field="' + t + '"]'), tableInstance
+                    getColumn: function (colId) {
+                        return r.setSelectedRecords(), tableInstance.API.value = $(tableInstance.API.record).find('[data-field="' + colId + '"]'), tableInstance
+                    },
+
+                    getVisibleFields: function () {
+                        return tableInstance.tableHead.find('tr > th').map(function(index, column) {
+                        	if(!($(this).is(":hidden"))){
+                        		return $(this).data('field');
+                        	}else{
+                        		return null;
+                        	}
+                        });
                     },
                     destroy: function () {
                         $(tableInstance).parent().find(".kt-datatable__pager").remove();
                         var t = $(tableInstance.initialDatatable).addClass("kt-datatable--destroyed").show();
-                        return $(tableInstance).replaceWith(t), e(l = t).trigger("kt-datatable--on-destroy"), r.isInit = !1, t = null
+                        return $(tableInstance).replaceWith(t), e(tableInstance = t).trigger("kt-datatable--on-destroy"), r.isInit = !1, t = null
                     },
-                    sort: function (t, a) {
-                        a = void 0 === a ? "asc" : a, r.spinnerCallback(!0);
+                    sort: function (column, sort) {
+                        sort = void 0 === sort ? "asc" : sort, r.spinnerCallback(!0);
                         var n = {
-                            field: t,
-                            sort: a
+                            field: column,
+                            sort: sort
                         };
                         return r.setDataSourceParam("sort", n), setTimeout(function () {
                             r.dataRender("sort"),
@@ -2633,25 +2671,26 @@ KTUtil.ready(function() {
                     getDataSet: function () {
                         return tableInstance.originalDataSet
                     },
-                    hideColumn: function (t) {
+                    hideColumn: function (column_name) {
+
                         $.map(i.columns, function (e) {
-                            return t === e.field && (e.responsive = {
+                            return column_name === e.field && (e.responsive = {
                                 hidden: "xl"
                             }), e
                         });
-                        var a = e.grep(e(l.table).find(".kt-datatable__cell"), function (a, n) {
-                            return t === e(a).data("field")
+                        var hideColumn = $.grep($(tableInstance.table).find(".kt-datatable__cell"), function (column_cell, index) {
+                            return column_name === $(column_cell).data("field")
                         });
-                        $(a).hide()
+                        $(hideColumn).hide()
                     },
-                    showColumn: function (t) {
+                    showColumn: function (column_name) {
                         $.map(i.columns, function (e) {
-                            return t === e.field && delete e.responsive, e
+                            return column_name === e.field && delete e.responsive, e
                         });
-                        var a = e.grep(e(l.table).find(".kt-datatable__cell"), function (a, n) {
-                            return t === e(a).data("field")
+                        var showColumn = $.grep($(tableInstance.table).find(".kt-datatable__cell"), function (column_cell, index) {
+                            return column_name === $(column_cell).data("field")
                         });
-                        $(a).show()
+                        $(showColumn).show()
                     },
                     nodeTr: [],
                     nodeTd: [],
@@ -2672,7 +2711,7 @@ KTUtil.ready(function() {
                         tableInstance
                     },
                     column: function (t) {
-                        return r.nodeCols = r.recentNode = e(l.tableBody).find(".kt-datatable__cell:nth-child(" + (t + 1) + ")"), l
+                        return r.nodeCols = r.recentNode = e(l.tableBody).find(".kt-datatable__cell:nth-child(" + (t + 1) + ")"), tableInstance
                     },
                     columns: function (t) {
                         var a = tableInstance.table;
